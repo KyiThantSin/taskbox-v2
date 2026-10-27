@@ -17,10 +17,6 @@ TaskBox is a Trello-inspired task management application built with React, TypeS
 
 All signed-in users can view and edit boards. Task descriptions can include who is doing the work.
 
-## Video Demonstration
-
-- [Watch the TaskBox demonstration on YouTube](https://youtu.be/L9hnPwT1eCo?si=xA-cXjXd-ZOjbTyv)
-
 ## Requirements
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/), or Docker Engine with Docker Compose v2.
