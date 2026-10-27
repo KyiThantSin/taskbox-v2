@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") 
+}
+
+model Board {
+  id        Int      @id @default(autoincrement())
+  title     String
+  createdAt DateTime @default(now())
+  lists     List[]
+  labels    Label[]
+}
+
+model List {
+  id       Int    @id @default(autoincrement())
+  boardId  Int
+  board    Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  title    String
+  position Int // order inside the board 
+  cards    Card[]
+
+  @@index([boardId])
+}
+
+model Card {
+  id                Int             @id @default(autoincrement())
+  listId            Int
+  list              List            @relation(fields: [listId], references: [id], onDelete: Cascade)
+  title             String
+  description       String? 
+  position          Int // order inside the list
+  dueDate           DateTime?
+  completed         Boolean         @default(false)
+  coverAttachmentId Int? 
+  shareToken        String?         @unique 
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  userId            Int?
+  user              User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
+  labels            Label[] 
+  checklistItems    ChecklistItem[]
+  comments          Comment[]
+  attachments       Attachment[]
+
+  @@index([listId])
+  @@index([userId])
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  cards     Card[]
+  comments  Comment[]
+}
+
+model Label {
+  id      Int    @id @default(autoincrement())
+  boardId Int
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  name    String
+  style   String @default("solid")
+  cards   Card[]
+
+  @@index([boardId])
+}
+
+model ChecklistItem {
+  id       Int     @id @default(autoincrement())
+  cardId   Int
+  card     Card    @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  text     String
+  done     Boolean @default(false)
+  position Int
+
+  @@index([cardId])
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  cardId    Int
+  card      Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  body      String
+  createdAt DateTime @default(now())
+  userId    Int?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([cardId])
+  @@index([userId])
+}
+
+model Attachment {
+  id        Int      @id @default(autoincrement())
+  cardId    Int
+  card      Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  url       String
+  publicId  String
+  fileName  String
+  createdAt DateTime @default(now())
+
+  @@index([cardId])
+}

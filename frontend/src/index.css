@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-white text-black min-h-screen;
+    background-image: radial-gradient(#d4d4d4 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  ::selection {
+    @apply bg-black text-white;
+  }
+  :focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  select:not([multiple]):not([size]) {
+    appearance: none;
+    padding-right: 2rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.625rem center;
+    background-size: 1rem 1rem;
+  }
+
+  .card {
+    @apply bg-white border-2 border-black rounded-xl shadow-[4px_4px_0_0_rgba(0,0,0,0.2)];
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border-2 border-black bg-black text-white
+      font-bold text-sm transition-all duration-150 active:translate-x-[2px] active:translate-y-[2px]
+      disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  .btn:hover:not(:disabled) {
+    @apply bg-neutral-800;
+  }
+  .btn-alt {
+    @apply btn bg-white text-black;
+  }
+  .btn-alt:hover:not(:disabled) {
+    @apply bg-neutral-100;
+  }
+  .btn-sm {
+    @apply px-2.5 py-1 text-xs rounded-md;
+  }
+  .label {
+    @apply text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-600;
+  }
+  .input {
+    @apply w-full rounded-lg border-2 border-black bg-white px-3 py-2 text-base placeholder:text-neutral-500;
+  }
+  .stripes {
+    background-image: repeating-linear-gradient(45deg, #000 0, #000 4px, #fff 4px, #fff 8px);
+    background-size: 28px 28px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  select:not([multiple]):not([size]) {
+    appearance: auto;
+    background-image: none;
+  }
+}
